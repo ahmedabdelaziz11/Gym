@@ -6,18 +6,39 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
+    private $permissions = [
+        'role-list',
+        'role-create',
+        'role-edit',
+        'role-delete',
+    ];
     /**
      * Seed the application's database.
      */
     public function run(): void
     {
-        User::factory()->create([
+        foreach ($this->permissions as $permission) {
+            Permission::create(['name' => $permission]);
+        }
+
+        $user = User::create([
             'name' => 'ٍSuper Admin',
             'email' => 'admin@gym.com',
-            'password' => bcrypt('admin'),
+            'password' => Hash::make('admin')
         ]);
+
+        $role = Role::create(['name' => 'Admin']);
+
+        $permissions = Permission::pluck('id', 'id')->all();
+
+        $role->syncPermissions($permissions);
+
+        $user->assignRole([$role->id]);        
     }
 }

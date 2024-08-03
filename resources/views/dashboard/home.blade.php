@@ -1,4 +1,3 @@
-<!--  Row 1 -->
 @extends('layouts.master')
 @section('content')
     <div class="row">

@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\AuthenticationController;
+use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Dashboard\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -23,5 +25,8 @@ Route::middleware('auth')->group(function () {
     Route::post('logout', [AuthenticationController::class, 'destroy'])->name('logout');
 
     Route::get('/',[HomeController::class,'index'])->name('home');
+
+    Route::resource('roles', RoleController::class);
+    Route::resource('users', UserController::class);
     
 });
