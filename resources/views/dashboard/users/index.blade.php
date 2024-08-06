@@ -4,9 +4,11 @@
         <div class="col-lg-12 margin-tb mb-4">
             <div class="pull-left">
                 <h2>Users Management
-                    <div class="float-end">
-                        <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
-                    </div>
+                    @can('user-list')
+                        <div class="float-end">
+                            <a class="btn btn-success" href="{{ route('users.create') }}"> Create New User</a>
+                        </div>
+                    @endcan
                 </h2>
             </div>
         </div>
@@ -40,8 +42,12 @@
                 </td>
                 <td>
                     <a class="btn btn-info" href="{{ route('users.show', $user->id) }}">Show</a>
-                    <a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}">Edit</a>
-                    <a class="btn btn-success" href="{{ route('users.destroy', $user->id) }}"> Delete</a>
+                    @can('user-edit')
+                        <a class="btn btn-primary" href="{{ route('users.edit', $user->id) }}">Edit</a>
+                    @endcan
+                    @can('user-delete')
+                        <a class="btn btn-success" href="{{ route('users.destroy', $user->id) }}"> Delete</a>
+                    @endcan
                 </td>
             </tr>
         @endforeach

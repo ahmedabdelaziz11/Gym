@@ -17,6 +17,10 @@ class DatabaseSeeder extends Seeder
         'role-create',
         'role-edit',
         'role-delete',
+        'user-list',
+        'user-create',
+        'user-edit',
+        'user-delete',
     ];
     /**
      * Seed the application's database.

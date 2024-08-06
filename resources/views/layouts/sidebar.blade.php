@@ -31,22 +31,26 @@
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">SYSTEM MANAGEMENT</span>
                 </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="/users" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-layout-dashboard"></i>
-                        </span>
-                        <span class="hide-menu">USERS</span>
-                    </a>
-                </li>
-                <li class="sidebar-item">
-                    <a class="sidebar-link" href="/roles" aria-expanded="false">
-                        <span>
-                            <i class="ti ti-layout-dashboard"></i>
-                        </span>
-                        <span class="hide-menu">Roles</span>
-                    </a>
-                </li>
+                @can('user-list')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/users" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-layout-dashboard"></i>
+                            </span>
+                            <span class="hide-menu">USERS</span>
+                        </a>
+                    </li>
+                @endcan
+                @can('role-list')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/roles" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-layout-dashboard"></i>
+                            </span>
+                            <span class="hide-menu">Roles</span>
+                        </a>
+                    </li>
+                @endcan
             </ul>
         </nav>
         <!-- End Sidebar navigation -->
