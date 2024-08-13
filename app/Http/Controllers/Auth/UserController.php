@@ -14,8 +14,8 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $data = User::latest()->paginate(5);
-        return view('dashboard.users.index',compact('data'));
+        // $data = User::latest()->paginate(5);
+        return view('dashboard.users.index');
     }
 
     public function create()
