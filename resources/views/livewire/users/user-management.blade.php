@@ -45,6 +45,6 @@
 
     {{ $users->links('pagination-links') }}
 
-    @livewire('user-create')
-    @livewire('user-edit')
+    @livewire('users.user-create')
+    @livewire('users.user-edit')
 </div>

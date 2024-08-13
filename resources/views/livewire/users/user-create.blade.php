@@ -31,6 +31,15 @@
                         </select>
                         @error('roles') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
+                    <div class="mb-3">
+                        <label for="branches" class="form-label">Branches</label>
+                        <select multiple class="form-control" id="branches" wire:model="branches">
+                            @foreach($allBranches as $branch)
+                                <option value="{{ $branch->id }}">{{ $branch->name }}</option>
+                            @endforeach
+                        </select>
+                        @error('branches') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

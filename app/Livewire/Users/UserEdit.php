@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Users;
 
-use App\Models\User;
+use App\Models\Branch;
 use App\Services\Dashboard\UserService;
 use Livewire\Component;
 use Spatie\Permission\Models\Role;
 
 class UserEdit extends Component
 {
-    public $userId, $name, $email,$password, $roles = [];
+    public $userId, $name, $email,$password, $roles = [], $branches = [];
 
     protected $listeners = ['editUser'];
 
@@ -21,6 +21,7 @@ class UserEdit extends Component
         $this->email = $user->email;
         $this->password = "";
         $this->roles = $user->getRoleNames()->toArray();
+        $this->branches = $user->branches()->pluck('branch_id')->toArray();
     }
 
     public function rules()
@@ -45,14 +46,16 @@ class UserEdit extends Component
             'email' => $this->email,
             'password' => $this->password,
             'roles' => $this->roles,
+            'branches' => $this->branches,
         ]);
         $this->dispatch('success','User Updated successfully!'); 
         $this->dispatch('closeModal'); 
+        $this->dispatch('refreshUserList'); 
         $this->reset();
     }
 
     public function render()
     {
-        return view('livewire.users.user-edit', ['allRoles' => Role::all()]);
+        return view('livewire.users.user-edit', ['allRoles' => Role::all(),'allBranches' => Branch::all()]);
     }
 }

@@ -24,10 +24,11 @@ class UserService
         ]);
 
         $user->syncRoles($data['roles']);
+        $user->branches()->sync($data['branches']);
         return true;
     }
 
-    public function getByid(int $id)
+    public function getById(int $id)
     {
         return User::findOrFail($id);
     }
@@ -38,9 +39,10 @@ class UserService
         $user->update([
             'name' => $data['name'],
             'email' => $data['email'],
-            'password' => $data['password'],
+            'password' => Hash::make($data['password']),
         ]);
         $user->syncRoles($data['roles']);
+        $user->branches()->sync($data['branches']);
         return true;
     }
 

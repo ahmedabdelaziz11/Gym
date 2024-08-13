@@ -3,6 +3,7 @@
 use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\UserController;
+use App\Http\Controllers\Dashboard\BranchController;
 use App\Http\Controllers\Dashboard\HomeController;
 use Illuminate\Support\Facades\Route;
 
@@ -28,5 +29,6 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('roles', RoleController::class);
     Route::resource('users', UserController::class);
+    Route::resource('branches', BranchController::class);
     
 });

@@ -1,10 +1,10 @@
 @extends('layouts.master')
-@section('title') User Management @endsection
+@section('title') Branch Management @endsection
 @section('css')
     @livewireStyles
 @endsection
 @section('content')
-    @livewire('users.user-management')
+    @livewire('branches.branch-management')
 @endsection
 
 @section('js')
@@ -12,7 +12,7 @@
     <script>
         $(document).ready(function() {
             Livewire.on('closeModal', () => {
-                const modalIds = ['createUserModal', 'editUserModal'];
+                const modalIds = ['createBranchModal', 'editBranchModal'];
 
                 modalIds.forEach(id => {
                     const modalElement = document.getElementById(id);
