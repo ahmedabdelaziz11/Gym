@@ -51,7 +51,6 @@ class UserEdit extends Component
         $this->dispatch('success','User Updated successfully!'); 
         $this->dispatch('closeModal'); 
         $this->dispatch('refreshUserList'); 
-        $this->reset();
     }
 
     public function render()

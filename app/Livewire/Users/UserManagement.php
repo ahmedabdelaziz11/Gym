@@ -2,7 +2,6 @@
 
 namespace App\Livewire\Users;
 
-use App\Models\User;
 use App\Services\Dashboard\UserService;
 use Livewire\Component;
 use Illuminate\Pagination\Paginator;
@@ -12,7 +11,7 @@ class UserManagement extends Component
 {
     use WithPagination;
 
-    protected $listeners = ['userCreated' => 'refreshUserList'];
+    protected $listeners = ['refreshUserList' => 'refreshUserList'];
 
     public $search = '';
     public $currentPage = 1;

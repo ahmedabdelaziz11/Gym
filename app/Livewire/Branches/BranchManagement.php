@@ -11,7 +11,7 @@ class BranchManagement extends Component
 {
     use WithPagination;
 
-    protected $listeners = ['branchCreated' => 'refreshBranchList'];
+    protected $listeners = ['refreshBranchList' => 'refreshBranchList'];
 
     public $search = '';
     public $currentPage = 1;

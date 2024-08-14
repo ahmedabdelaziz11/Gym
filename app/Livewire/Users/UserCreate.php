@@ -37,7 +37,6 @@ class UserCreate extends Component
         $this->dispatch('success','User saved successfully!'); 
         $this->dispatch('closeModal'); 
         $this->dispatch('refreshUserList'); 
-        $this->reset();
     }
 
     public function render()
