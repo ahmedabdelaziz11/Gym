@@ -4,7 +4,7 @@
     <div>
         <div class="brand-logo d-flex align-items-center justify-content-between">
             <a href="/" class="text-nowrap logo-img">
-                <img src="{{asset('assets/images/logos/dark-logo.svg')}}" width="180" alt="" />
+                <img src="{{ asset('assets/images/logos/dark-logo.svg') }}" width="180" alt="" />
             </a>
             <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
                 <i class="ti ti-x fs-8"></i>
@@ -31,6 +31,16 @@
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">SYSTEM MANAGEMENT</span>
                 </li>
+                @can('service-list')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/services" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-layout-dashboard"></i>
+                            </span>
+                            <span class="hide-menu">Services</span>
+                        </a>
+                    </li>
+                @endcan
                 @can('branch-list')
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="/branches" aria-expanded="false">
@@ -40,7 +50,7 @@
                             <span class="hide-menu">Branches</span>
                         </a>
                     </li>
-                @endcan                
+                @endcan
                 @can('role-list')
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="/roles" aria-expanded="false">

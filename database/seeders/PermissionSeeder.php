@@ -8,6 +8,10 @@ use Spatie\Permission\Models\Permission;
 class PermissionSeeder extends Seeder
 {
     private $permissions = [
+        'service-list',
+        'service-create',
+        'service-edit',
+        'service-delete',
         'branch-list',
         'branch-create',
         'branch-edit',

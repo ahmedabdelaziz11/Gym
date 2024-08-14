@@ -2,7 +2,6 @@
 namespace App\Services\Dashboard;
 
 use App\Models\Branch;
-use Illuminate\Support\Facades\Hash;
 
 class BranchService 
 {
@@ -12,6 +11,14 @@ class BranchService
             ->where('name', 'like', '%' . $searchTerm . '%')
             ->orderByDesc('id')
             ->paginate(10);
+    }
+
+    public function getAll()
+    {
+        return Branch::query()
+            ->whereIn('id',auth()->user()->branches->pluck('id')->toArray())
+            ->orderByDesc('id')
+            ->get();
     }
 
     public function create(array $data)
