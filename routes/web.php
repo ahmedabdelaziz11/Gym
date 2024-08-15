@@ -34,5 +34,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('branches', BranchController::class);
     Route::resource('services', ServiceController::class);
     Route::resource('plans', PlanController::class);
-    
+    //test git config
 });
