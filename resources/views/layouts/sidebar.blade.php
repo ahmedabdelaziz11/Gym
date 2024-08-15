@@ -31,6 +31,16 @@
                     <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
                     <span class="hide-menu">SYSTEM MANAGEMENT</span>
                 </li>
+                @can('plan-list')
+                <li class="sidebar-item">
+                    <a class="sidebar-link" href="/plans" aria-expanded="false">
+                        <span>
+                            <i class="ti ti-layout-dashboard"></i>
+                        </span>
+                        <span class="hide-menu">Plans</span>
+                    </a>
+                </li>
+            @endcan
                 @can('service-list')
                     <li class="sidebar-item">
                         <a class="sidebar-link" href="/services" aria-expanded="false">
