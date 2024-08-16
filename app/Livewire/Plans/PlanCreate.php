@@ -15,7 +15,9 @@ class PlanCreate extends Component
     public $member_count;
     public $expired_at;
     public $branch_id;
-    public $services = [];
+    public $service_id;
+    public $allServices = [];
+    public $selectedServices = [];
 
     protected function rules()
     {
@@ -40,9 +42,29 @@ class PlanCreate extends Component
             'member_count' => 'nullable|numeric',
             'expired_at' => 'nullable|date',
             'branch_id' => 'required|exists:branches,id',
-            'branches' => 'array',
-            'services.*' => ['numeric', 'exists:plans,id'],
+            'selectedServices' => 'array',
+            'selectedServices.*.id' => 'required|numeric|exists:services,id',
+            'selectedServices.*.count' => 'required|numeric|min:1',
         ];
+    }
+
+    public function addService()
+    {
+        $service = collect($this->allServices)->firstWhere('id', $this->service_id);
+
+        if ($service) {
+            $this->selectedServices[] = [
+                'id' => $service['id'],
+                'name' => $service['name'],
+                'count' => 1,
+            ];
+        }
+    }
+
+    public function removeService($index)
+    {
+        unset($this->selectedServices[$index]);
+        $this->selectedServices = array_values($this->selectedServices);
     }
 
     public function save(PlanService $service)
@@ -57,19 +79,20 @@ class PlanCreate extends Component
             'days' => $this->days,
             'member_count' => $this->member_count,
             'expired_at' => $this->expired_at,
-            'services' => $this->services,
+            'services' => $this->selectedServices,
             'branch_id' => $this->branch_id,
         ]);
-        $this->reset(['name','cost','days','member_count','expired_at','services','branch_id']);
+        $this->reset(['name','cost','days','member_count','expired_at','selectedServices','branch_id']);
         $this->dispatch('success','Plan saved successfully!'); 
-        $this->dispatch('refreshServiceList'); 
+        $this->dispatch('refreshPlanList'); 
         $this->dispatch('closeModal'); 
         $this->reset();
     }
 
-    public function render(BranchService $service)
+    public function render(BranchService $service,PlanService $planService)
     {
         $allBranches = $service->getAll();
+        $this->allServices = $planService->getAll();
         return view('livewire.plans.plan-create',compact('allBranches'));
     }
 }
