@@ -2,7 +2,10 @@
 
 namespace App\Services\Dashboard;
 
+use App\Constants\CallStatus;
+use App\Constants\CallTypes;
 use App\Constants\ClientStatus;
+use App\Models\Call;
 use App\Models\Client;
 
 class ClientService
@@ -62,10 +65,16 @@ class ClientService
         {
             abort(403, 'Unauthorized');
         }
-        return $client->update([
+        $client->update([
             'visit_comment' => $data['visit_comment'],
             'next_call_date' => $data['next_call_date'],
             'client_goal' => $data['client_goal'],
+        ]);
+        $callService = new CallService();
+        $callService->create([
+            'client_id' => $client->id,
+            'Type'      => CallTypes::FIRST_CALL,
+            'date'      => $data['next_call_date'],
         ]);
     }
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\Auth\RoleController;
 use App\Http\Controllers\Auth\AuthenticationController;
 use App\Http\Controllers\Auth\UserController;
 use App\Http\Controllers\Dashboard\BranchController;
+use App\Http\Controllers\Dashboard\CallController;
 use App\Http\Controllers\Dashboard\ClientController;
 use App\Http\Controllers\Dashboard\HomeController;
 use App\Http\Controllers\Dashboard\PlanController;
@@ -36,4 +37,5 @@ Route::middleware('auth')->group(function () {
     Route::resource('services', ServiceController::class);
     Route::resource('plans', PlanController::class);
     Route::resource('clients', ClientController::class);
+    Route::resource('calls', CallController::class);
 });
