@@ -15,6 +15,19 @@ class UserService
             ->paginate(10);
     }
 
+    public function getSeller()
+    {
+        return User::query()
+        ->whereHas('branches', function ($q) {
+            $q->where('branch_id', auth()->user()->branches->first()->id);
+        })
+        ->whereHas('roles', function ($query) {
+            $query->where('name', 'sales');
+        })
+        ->orderByDesc('id')
+        ->get();
+    }
+
     public function create(array $data):bool
     {
         $user = User::create([
