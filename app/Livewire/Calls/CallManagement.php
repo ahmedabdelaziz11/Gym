@@ -52,21 +52,7 @@ class CallManagement extends Component
         $this->resetPage();
     }
 
-    public function saveCallFeedback(CallService $service)
-    {
-        $validatedData = $this->validate([
-            'call_id' => 'required|exists:calls,id',
-            'status' => 'required|string',
-            'comment' => 'nullable|string|required_if:status,ANSWER',
-            'next_call_date' => 'nullable|date|required_if:status,NOT_ANSWER',
-        ]);
-        $service->saveVisitFeedback($validatedData);
 
-        $this->dispatch('success','Call Feedback Saved successfully!'); 
-        $this->dispatch('closeModal'); 
-        $this->reset(['call_id','status','comment','next_call_date']);
-        $this->resetPage();
-    }
 
     public function setPage($url)
     {

@@ -2,12 +2,12 @@
 
 namespace App\Models;
 
-use App\Traits\ShowableTrait;
+use App\Traits\BranchTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Client extends Model
 {
-    use ShowableTrait;
+    use BranchTrait;
     protected $guarded = [];
 
     public function seller()

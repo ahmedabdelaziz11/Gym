@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire\Clients;
+namespace App\Livewire\Leads;
 
 use App\Constants\ClientDataType;
 use App\Models\Client;
@@ -9,7 +9,7 @@ use App\Services\Dashboard\UserService;
 use Livewire\Component;
 use ReflectionClass;
 
-class ClientCreate extends Component
+class LeadCreate extends Component
 {
     public $name;
     public $phone;
@@ -28,11 +28,7 @@ class ClientCreate extends Component
                 'regex:/^01[0-2,5]{1}[0-9]{8}$/',
                 '',
                 function ($attribute, $value, $fail) {
-                    $exists = Client::where('phone', $value)
-                        ->whereHas('showable', function($query) {
-                            $query->where('branch_id', auth()->user()->branches->first()->id);
-                        })->exists();
-    
+                    $exists = Client::where('phone', $value)->where('branch_id', auth()->user()->branches->first()->id)->exists();
                     if ($exists) {
                         $fail('The '.$attribute.' has already been taken for this branch.');
                     }
@@ -48,7 +44,7 @@ class ClientCreate extends Component
 
     public function save(ClientService $service)
     {
-        if (auth()->user() && !auth()->user()->hasPermissionTo('client-create')) {
+        if (auth()->user() && !auth()->user()->hasPermissionTo('lead-create')) {
             abort(403, 'Unauthorized');
         }
         $this->validate();
@@ -59,10 +55,11 @@ class ClientCreate extends Component
             'national_id' => $this->national_id,
             'data_type' => $this->data_type,
             'user_id' => $this->user_id,
+            'branch_id' => auth()->user()->branches->first()->id,
         ]);
         $this->reset(['name','phone','email','national_id','user_id']);
-        $this->dispatch('success','Client saved successfully!'); 
-        $this->dispatch('refreshClientList'); 
+        $this->dispatch('success','Lead saved successfully!'); 
+        $this->dispatch('refreshLeadList'); 
         $this->dispatch('closeModal'); 
         $this->reset();
     }
@@ -71,6 +68,6 @@ class ClientCreate extends Component
     {
         $this->allDataTypes = (new ReflectionClass(ClientDataType::class))->getConstants();
         $this->allSellers = $userService->getSeller();
-        return view('livewire.clients.client-create');
+        return view('livewire.leads.lead-create');
     }
 }

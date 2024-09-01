@@ -5,6 +5,7 @@ namespace App\Livewire\Plans;
 use App\Models\Plan;
 use App\Services\Dashboard\BranchService;
 use App\Services\Dashboard\PlanService;
+use App\Services\Dashboard\ServiceTypeService;
 use Livewire\Component;
 
 class PlanCreate extends Component
@@ -27,11 +28,7 @@ class PlanCreate extends Component
                 'string',
                 'max:255',
                 function ($attribute, $value, $fail) {
-                    $exists = Plan::where('name', $value)
-                        ->whereHas('showable', function($query) {
-                            $query->where('branch_id', $this->branch_id);
-                        })->exists();
-    
+                    $exists = Plan::where('name', $value)->where('branch_id', $this->branch_id)->exists();
                     if ($exists) {
                         $fail('The '.$attribute.' has already been taken for this branch.');
                     }
@@ -89,10 +86,10 @@ class PlanCreate extends Component
         $this->reset();
     }
 
-    public function render(BranchService $service,PlanService $planService)
+    public function render(BranchService $service,ServiceTypeService $serviceTypeService)
     {
         $allBranches = $service->getAll();
-        $this->allServices = $planService->getAll();
+        $this->allServices = $serviceTypeService->getAll();
         return view('livewire.plans.plan-create',compact('allBranches'));
     }
 }

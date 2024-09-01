@@ -1,9 +1,9 @@
-<div wire:ignore.self class="modal fade livewiremodal" x-on:close-modal.window="on = false" id="createClientModal" tabindex="-1" aria-labelledby="createClientModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade livewiremodal" x-on:close-modal.window="on = false" id="createLeadModal" tabindex="-1" aria-labelledby="createLeadModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <form wire:submit.prevent="save" autocomplete="false">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="createClientModalLabel">Create New Client</h5>
+                    <h5 class="modal-title" id="createLeadModalLabel">Create New Lead</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

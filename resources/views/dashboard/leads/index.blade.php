@@ -1,10 +1,10 @@
 @extends('layouts.master')
-@section('title') Clients Management @endsection
+@section('title') Leads Management @endsection
 @section('css')
     @livewireStyles
 @endsection
 @section('content')
-    @livewire('clients.client-management')
+    @livewire('leads.lead-management')
 @endsection
 
 @section('js')
@@ -12,7 +12,7 @@
     <script>
         $(document).ready(function() {
             Livewire.on('closeModal', () => {
-                const modalIds = ['createClientModal', 'editClientModal','VisitFeedBackModal'];
+                const modalIds = ['createLeadModal', 'editLeadModal','VisitFeedBackModal','CallFeedBackModal'];
 
                 modalIds.forEach(id => {
                     const modalElement = document.getElementById(id);

@@ -32,7 +32,7 @@ class PlanEdit extends Component
         $this->days = $plan->days;
         $this->member_count = $plan->member_count;
         $this->expired_at = $plan->expired_at;
-        $this->branch_id = $plan->showable->branch_id;
+        $this->branch_id = $plan->branch_id;
         $this->selectedServices = $plan->services->map(function($service) {
             return [
                 'id' => $service->id,
@@ -50,12 +50,7 @@ class PlanEdit extends Component
                 'string',
                 'max:255',
                 function ($attribute, $value, $fail) {
-                    $exists = Plan::where('name', $value)
-                        ->where('id', '!=', $this->planId)
-                        ->whereHas('showable', function($query) {
-                            $query->where('branch_id', $this->branch_id);
-                        })->exists();
-    
+                    $exists = Plan::where('name', $value)->where('id', '!=', $this->planId)->where('branch_id', $this->branch_id)->exists();
                     if ($exists) {
                         $fail('The '.$attribute.' has already been taken for this branch.');
                     }

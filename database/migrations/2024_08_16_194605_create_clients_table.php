@@ -23,6 +23,7 @@ return new class extends Migration
             $table->date('next_call_date')->nullable();
             $table->string('client_goal')->nullable();
             $table->string('client_status')->nullable();
+            $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade');
             $table->timestamps();
         });
     }

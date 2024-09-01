@@ -18,6 +18,7 @@ return new class extends Migration
             $table->enum('status',['ANSWER','NOT_ANSWER'])->nullable();
             $table->text('comment')->nullable();
             $table->string('type');
+            $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade');
             $table->timestamps();
         });
     }

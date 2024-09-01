@@ -25,24 +25,13 @@
                         <span class="hide-menu">Dashboard</span>
                     </a>
                 </li>
-                @can('client-list')
+                @can('lead-list')
                     <li class="sidebar-item">
-                        <a class="sidebar-link" href="/clients" aria-expanded="false">
+                        <a class="sidebar-link" href="/leads" aria-expanded="false">
                             <span>
                                 <i class="ti ti-layout-dashboard"></i>
                             </span>
-                            <span class="hide-menu">Clients</span>
-                        </a>
-                    </li>
-                @endcan
-
-                @can('call-list')
-                    <li class="sidebar-item">
-                        <a class="sidebar-link" href="/calls" aria-expanded="false">
-                            <span>
-                                <i class="ti ti-layout-dashboard"></i>
-                            </span>
-                            <span class="hide-menu">Calls</span>
+                            <span class="hide-menu">leads</span>
                         </a>
                     </li>
                 @endcan

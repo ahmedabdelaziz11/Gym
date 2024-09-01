@@ -18,6 +18,7 @@ return new class extends Migration
             $table->decimal('cost',8,2);
             $table->integer('member_count')->nullable();
             $table->dateTime('expired_at')->nullable();
+            $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade');
             $table->timestamps();
         });
     }

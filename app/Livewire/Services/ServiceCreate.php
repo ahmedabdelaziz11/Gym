@@ -21,11 +21,7 @@ class ServiceCreate extends Component
                 'string',
                 'max:255',
                 function ($attribute, $value, $fail) {
-                    $exists = \App\Models\Service::where('name', $value)
-                        ->whereHas('showable', function($query) {
-                            $query->where('branch_id', $this->branch_id);
-                        })->exists();
-    
+                    $exists = \App\Models\Service::where('name', $value)->where('branch_id', $this->branch_id)->exists();
                     if ($exists) {
                         $fail('The '.$attribute.' has already been taken for this branch.');
                     }

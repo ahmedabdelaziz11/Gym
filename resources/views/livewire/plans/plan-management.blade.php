@@ -38,7 +38,7 @@
                         <div>No services</div>
                     @endforelse
                 </td>
-                <td>{{ $plan->showable->branch->name }}</td>
+                <td>{{ $plan->branch->name }}</td>
                 <td>
                     @can('plan-edit')
                     <button class="btn btn-sm btn-info" wire:click="$dispatch('editPlan', { id: {{ $plan->id }} })" data-bs-toggle="modal" data-bs-target="#editPlanModal">Edit</button>

@@ -24,7 +24,7 @@
             <tr>
                 <td>{{ $service->name }}</td>
                 <td>{{ number_format($service->cost,2) }}</td>
-                <td>{{ $service->showable->branch->name }}</td>
+                <td>{{ $service->branch->name }}</td>
                 <td>
                     @can('service-edit')
                     <button class="btn btn-info" wire:click="$dispatch('editService', { id: {{ $service->id }} })" data-bs-toggle="modal" data-bs-target="#editServiceModal">Edit</button>
@@ -35,7 +35,7 @@
                 </td>
             </tr>
         @empty
-            <td class="text-center" colspan="2">no data</td>
+            <td class="text-center" colspan="4">no data</td>
         @endforelse
     </table>
 
