@@ -12,11 +12,14 @@
             <div class="card shadow">
                 <div class="card-header border-0">
                     <h3 class="mb-0">Lead Management</h3>
-                    @can('lead-create')
                         <div class="float-end">
-                            <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createLeadModal"> Create New Lead</button>
+                            @can('lead-create')
+                                <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createLeadModal"> Create New Lead</button>
+                            @endcan
+                            @can('subscription-create')
+                                <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createSubscriptionModal"> Create New subscription</button>
+                            @endcan
                         </div>
-                    @endcan
                 </div>
                 <div class="card-header border-0">
                     <div class="row">
@@ -77,6 +80,7 @@
                     </table>
                 </div>
                 @livewire('leads.lead-create')
+                @livewire('subscriptions.subscription-create')
                 @include('livewire.leads.visit-feedback')
             </div>
         </div>

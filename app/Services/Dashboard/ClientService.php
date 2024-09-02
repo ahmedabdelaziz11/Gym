@@ -85,6 +85,11 @@ class ClientService
         return Client::whereIn('branch_id', auth()->user()->branches->pluck('id')->toArray())->findOrFail($id);
     }
 
+    public function getByPhone(string $phone)
+    {
+        return Client::whereIn('branch_id', auth()->user()->branches->pluck('id')->toArray())->where('phone',$phone)->first();
+    }
+
     public function update(array $data): bool
     {
         $client = Client::whereIn('branch_id', auth()->user()->branches->pluck('id')->toArray())->findOrFail($data['id']);
