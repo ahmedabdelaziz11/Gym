@@ -3,7 +3,7 @@
 <div>
     <nav>
         <div class="nav nav-tabs" id="nav-tab" role="tablist">
-            <button wire:click="$dispatch('pageNumber', { number: 1 })" class="nav-link @if($page_num == 1) active @endif" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Leads</button>
+            <button wire:click="$dispatch('pageNumber', { number: 1 })" class="nav-link @if($page_num == 1) active @endif" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Clients</button>
             <button wire:click="$dispatch('pageNumber', { number: 2 })" class="nav-link @if($page_num == 2) active @endif" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Calls</button>
         </div>
     </nav>
@@ -11,11 +11,8 @@
         <div class="tab-pane fade @if($page_num == 1) show active @endif" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab" tabindex="0">
             <div class="card shadow">
                 <div class="card-header border-0">
-                    <h3 class="mb-0">Lead Management</h3>
+                    <h3 class="mb-0">Client Management</h3>
                         <div class="float-end">
-                            @can('lead-create')
-                                <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createLeadModal"> Create New Lead</button>
-                            @endcan
                             @can('subscription-create')
                                 <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createSubscriptionModal"> Create New subscription</button>
                             @endcan
@@ -23,24 +20,8 @@
                 </div>
                 <div class="card-header border-0">
                     <div class="row">
-                        <div class="col-12 col-md-6">
-                            <input type="text" wire:model.live.debounce.1000ms="lead_search" name="lead_search" class="form-control mb-3" placeholder="Search By Name or Phone...">
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <select class="form-control" id="data_type" wire:model.change="search_by_data_type">
-                                <option value="">Select Data Type</option>
-                                @foreach ($allDataTypes as $key => $value )
-                                    <option value="{{$key}}">{{$value}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="col-12 col-md-3">
-                            <select class="form-control" id="search_by_lead_status" wire:model.change="search_by_lead_status">
-                                <option value="">Select Status</option>
-                                @foreach ($lead_status as $key => $value )
-                                    <option value="{{$key}}">{{$value}}</option>
-                                @endforeach
-                            </select>
+                        <div class="col-12 col-md-12">
+                            <input type="text" wire:model.live.debounce.1000ms="client_search" name="client_search" class="form-control mb-3" placeholder="Search By Name or Phone...">
                         </div>
                     </div>            
                 </div>
@@ -50,24 +31,18 @@
                             <tr>
                                 <th scope="col">NAME</th>
                                 <th scope="col">PHONE</th>
-                                <th scope="col">DATA TYPE</th>
-                                <th scope="col">STATUS</th>
                                 <th scope="col">SELLER</th>
                                 <th scope="col">ACTIONS</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($leads as $lead)
+                            @forelse ($clients as $client)
                             <tr>
-                                <td>{{$lead->name}}</td>
-                                <td>{{$lead->phone}}</td>
-                                <td>{{$lead->data_type}}</td>
-                                <td>{{$lead->client_status}}</td>
-                                <td>{{$lead->seller->name}}</td>
+                                <td>{{$client->name}}</td>
+                                <td>{{$client->phone}}</td>
+                                <td>{{$client->seller->name}}</td>
                                 <td>
-                                    @if (auth()->user()->id == $lead->user_id && $lead->visit_comment == null)
-                                        <button class="btn btn-sm btn-danger" wire:click="$dispatch('editVisitFeedback', { id: {{ $lead->id }} })" data-bs-toggle="modal" data-bs-target="#VisitFeedBackModal">Visit Feadback</button>
-                                    @endif
+
                                 </td>
                             </tr>
                             @empty
@@ -76,12 +51,9 @@
                                 </tr>
                             @endforelse
                         </tbody>
-                        {{ $leads->links('pagination-links') }}
+                        {{ $clients->links('pagination-links') }}
                     </table>
                 </div>
-                @livewire('leads.lead-create')
-                @livewire('subscriptions.subscription-create')
-                @include('livewire.leads.visit-feedback')
             </div>
         </div>
 
@@ -143,7 +115,7 @@
                         {{ $calls->links('pagination-links') }}
                     </table>
                 </div>
-                @include('livewire.calls.call-feedback')
+                @include('livewire.calls.client-call-feedback')
             </div>
         </div>
     </div>

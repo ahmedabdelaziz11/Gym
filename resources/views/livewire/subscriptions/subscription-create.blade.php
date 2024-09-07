@@ -9,7 +9,7 @@
                 <div class="modal-body">
                     <div class="row m-1">
                         <label for="phone" class="form-label">Phone</label>
-                        <input type="text" class="form-control" id="phone" wire:model="phone">
+                        <input type="text" class="form-control" id="phone" wire:model="phone" wire:keyup.debounce.500ms="getUser">
                         @error('phone') <span class="text-danger">{{ $message }}</span> @enderror
                     </div>
                     <div class="row m-1">

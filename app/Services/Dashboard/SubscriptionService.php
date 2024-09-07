@@ -2,24 +2,26 @@
 
 namespace App\Services\Dashboard;
 
-use App\Constants\CallTypes;
-use App\Constants\ClientStatus;
-use App\Models\Call;
-use App\Models\Client;
+use App\Events\SubscriptionCreated;
 use App\Models\Subscription;
 
 class SubscriptionService
 {
     public function __construct(
-            public ClientService $clientService,
+            public LeadService $leadService,
             public PlanService   $planService,
         ) {
     }
 
-
+    public function index(array $data)
+    {
+        return Subscription::query()->orderByDesc('id')
+            ->paginate(10);
+    }
+    
     public function create(array $data)
     {
-        $client = $this->clientService->getByPhone($data['phone']);
+        $client = $this->leadService->getByPhone($data['phone']);
         $plan   = $this->planService->getById($data['plan_id']);
 
         $subscription = Subscription::create([
@@ -29,20 +31,20 @@ class SubscriptionService
             'end_date'  => $data['end_date'],
             'status'    => 'ACTIVE',
             'price'     => $data['amount_paid'],
-            'branch_id' => $client->id,
+            'branch_id' => $client->branch_id,
         ]);
 
         foreach ($plan->services as $service) {
             $subscription->services()->attach($service->id, [
-                'quantity' => $service->count
+                'quantity' => $service->pivot->count
             ]);
         }
+        event(new SubscriptionCreated($client, $subscription));
+    }
 
-        if($client->client_status != ClientStatus::CONVERTED)
-        {
-            $client->client_status = ClientStatus::CONVERTED;
-            $client->save();
-            Call::where('client_id',$client->id)->where('status',null)->delete();
-        }
+    public function delete($id): bool
+    {
+        return Subscription::find($id)
+            ->delete();
     }
 }

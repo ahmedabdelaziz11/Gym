@@ -8,8 +8,7 @@ class PlanService
 {
     public function index(string $searchTerm = null)
     {
-        return Plan::query()->whereIn('branch_id', auth()->user()->branches->pluck('id')->toArray())
-            ->where('name', 'like', '%' . $searchTerm . '%')
+        return Plan::query()->where('name', 'like', '%' . $searchTerm . '%')
             ->orderByDesc('id')
             ->paginate(10);
     }
@@ -17,7 +16,6 @@ class PlanService
     public function getAll()
     {
         return Plan::query()
-            ->whereIn('branch_id', auth()->user()->branches->pluck('id')->toArray())
             ->orderByDesc('id')
             ->get();
     }
@@ -41,13 +39,12 @@ class PlanService
 
     public function getById(int $id)
     {
-        return Plan::whereIn('branch_id', auth()->user()->branches->pluck('id')->toArray())->findOrFail($id);
+        return Plan::findOrFail($id);
     }
 
     public function update(array $data): bool
     {
-        $plan = Plan::whereIn('branch_id', auth()->user()->branches->pluck('id')->toArray())
-        ->findOrFail($data['id']);
+        $plan = Plan::findOrFail($data['id']);
 
         $plan->update([
             'name' => $data['name'],
@@ -67,8 +64,7 @@ class PlanService
 
     public function delete($id): bool
     {
-        return Plan::whereIn('branch_id', auth()->user()->branches->pluck('id')->toArray())
-            ->find($id)
+        return Plan::findOrFail($id)
             ->delete();
     }
 }

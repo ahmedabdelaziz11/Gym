@@ -2,7 +2,6 @@
 
 namespace App\Services\Dashboard;
 
-use App\Constants\CallTypes;
 use App\Constants\ClientStatus;
 use App\Models\Call;
 use Carbon\Carbon;
@@ -17,6 +16,7 @@ class CallService
         $client_id = isset($data['client_id']) ? $data['client_id'] : null;
         $type      = isset($data['type'])      ? $data['type'] : null;
         $status    = isset($data['status'])    ? $data['status'] : null;
+        $client_status    = isset($data['client_status'])    ? $data['client_status'] : null;
 
         $query = Call::query()->whereIn('branch_id', $user->branches->pluck('id')->toArray())
             ->when($client_id,function($q) use ($client_id) {
@@ -37,6 +37,20 @@ class CallService
                 $q->where('user_id',$user->id);
             });
         }
+
+        if($client_status ==  'Lead')
+        {
+            $query->whereHas('client',function($q){
+                return $q->lead();
+            });
+        }
+
+        if($client_status == 'Client')
+        {
+            $query->whereHas('client',function($q){
+                return $q->client();
+            });
+        }
         
         return $query->orderByDesc('date')->orderByDesc('id')->paginate(30);
     }
@@ -48,8 +62,7 @@ class CallService
 
     public function update(array $data): bool
     {
-        $call = Call::whereIn('branch_id', auth()->user()->branches->pluck('id')->toArray())
-        ->findOrFail($data['id']);
+        $call = Call::findOrFail($data['id']);
         $call->update($data);
         return true;
     }
@@ -65,7 +78,7 @@ class CallService
             'comment' => $data['status'] == 'ANSWER' ? $data['comment'] : null,
             'status' => $data['status'],
         ]);
-        if($data['selected_lead_status'] != null)
+        if(isset($data['selected_lead_status']) && $data['selected_lead_status'] != null)
         {
             $call->client->update([
                 'client_status' => $data['selected_lead_status'],
@@ -74,10 +87,10 @@ class CallService
                 Call::where('client_id',$call->client_id)->where('status',null)->delete();
             }
         }
-        if($data['next_call_date'] != null || $data['status']  == 'NOT_ANSWER'){
+        if((isset($data['next_call_date']) && $data['next_call_date'] != null) || $data['status']  == 'NOT_ANSWER'){
             $this->create([
                 'client_id' => $call->client->id,
-                'Type'      => CallTypes::FIRST_CALL,
+                'type'      => $call->type,
                 'date'      => $data['status']  == 'NOT_ANSWER' ? now()->addDay() : $data['next_call_date'],
                 'branch_id' => auth()->user()->branches->first()->id,
             ]);
@@ -86,8 +99,7 @@ class CallService
 
     public function delete($id): bool
     {
-        return Call::whereIn('branch_id', auth()->user()->branches->pluck('id')->toArray())
-            ->find($id)
+        return Call::find($id)
             ->delete();
     }
 }

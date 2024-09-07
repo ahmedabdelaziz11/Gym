@@ -4,7 +4,7 @@ namespace App\Livewire\Leads;
 
 use App\Constants\ClientDataType;
 use App\Constants\ClientStatus;
-use App\Services\Dashboard\ClientService;
+use App\Services\Dashboard\LeadService;
 use App\Services\Dashboard\CallService;
 use Livewire\Component;
 use Illuminate\Pagination\Paginator;
@@ -56,7 +56,7 @@ class LeadManagement extends Component
         $this->page_num = $number;
     }
 
-    public function render(ClientService $service,CallService $callService)
+    public function render(LeadService $service,CallService $callService)
     {
         if (auth()->user() && !auth()->user()->hasPermissionTo('lead-list')) {
             abort(403, 'Unauthorized');
@@ -71,6 +71,7 @@ class LeadManagement extends Component
             'from'   => $this->from,
             'to'     => $this->to,
             'status' => $this->search_by_call_status,
+            'client_status' => 'Lead'
         ]);
         
         $allDataTypes      = (new ReflectionClass(ClientDataType::class))->getConstants();
@@ -78,7 +79,7 @@ class LeadManagement extends Component
         return view('livewire.leads.lead-management', ['leads' => $leads,'allDataTypes' => $allDataTypes,'calls' => $calls,'page_num' => $this->page_num]);
     }
 
-    public function deleteService($id,ClientService $service)
+    public function deleteLead($id,LeadService $service)
     {
         if (auth()->user() && !auth()->user()->hasPermissionTo('lead-delete')) {
             abort(403, 'Unauthorized');
@@ -88,13 +89,13 @@ class LeadManagement extends Component
         $this->resetPage();
     }
 
-    public function saveVisitFeedback(ClientService $service)
+    public function saveVisitFeedback(LeadService $service)
     {
         $validatedData = $this->validate([
             'lead_id'        => 'required|exists:clients,id',
             'visit_comment'  => 'required|string',
             'client_goal'    => 'required|string',
-            'selected_lead_status'    => 'required|string',
+            'selected_lead_status'  => 'required|string',
             'next_call_date' => 'nullable|date|required_if:selected_lead_status,'.ClientStatus::INTERESTED.','.ClientStatus::QUALIFED,
         ]);
         $service->saveVisitFeedback($validatedData);

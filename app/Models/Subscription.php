@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\BranchTrait;
 use Illuminate\Database\Eloquent\Model;
 
 class Subscription extends Model
 {
+    use BranchTrait;
+
     protected $fillable = [
         'client_id',
         'plan_id',

@@ -34,6 +34,28 @@
                             <span class="hide-menu">leads</span>
                         </a>
                     </li>
+                @endcan 
+
+                @can('client-list')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/clients" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-layout-dashboard"></i>
+                            </span>
+                            <span class="hide-menu">Clients</span>
+                        </a>
+                    </li>
+                @endcan
+
+                @can('subscription-list')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link" href="/subscriptions" aria-expanded="false">
+                            <span>
+                                <i class="ti ti-layout-dashboard"></i>
+                            </span>
+                            <span class="hide-menu">Subscriptions</span>
+                        </a>
+                    </li>
                 @endcan
 
                 <li class="nav-small-cap">

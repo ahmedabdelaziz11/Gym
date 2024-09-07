@@ -2,7 +2,7 @@
 
 namespace App\Livewire\Subscriptions;
 
-use App\Services\Dashboard\ClientService;
+use App\Services\Dashboard\LeadService;
 use App\Services\Dashboard\PlanService;
 use App\Services\Dashboard\SubscriptionService;
 use Livewire\Component;
@@ -29,9 +29,9 @@ class SubscriptionCreate extends Component
         ];
     }
 
-    public function updatedPhone($value,ClientService $clientService)
+    public function getUser(LeadService $leadService)
     {
-        $client = $clientService->getByPhone($value);
+        $client = $leadService->getByPhone($this->phone);
         if ($client) {
             $this->client_id = $client->id;
             $this->client_name = $client->name;

@@ -4,7 +4,7 @@ namespace App\Livewire\Leads;
 
 use App\Constants\ClientDataType;
 use App\Models\Client;
-use App\Services\Dashboard\ClientService;
+use App\Services\Dashboard\LeadService;
 use App\Services\Dashboard\UserService;
 use Livewire\Component;
 use ReflectionClass;
@@ -42,7 +42,7 @@ class LeadCreate extends Component
         ];
     }
 
-    public function save(ClientService $service)
+    public function save(LeadService $service)
     {
         if (auth()->user() && !auth()->user()->hasPermissionTo('lead-create')) {
             abort(403, 'Unauthorized');
