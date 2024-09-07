@@ -80,7 +80,6 @@
                     </table>
                 </div>
                 @livewire('leads.lead-create')
-                @livewire('subscriptions.subscription-create')
                 @include('livewire.leads.visit-feedback')
             </div>
         </div>

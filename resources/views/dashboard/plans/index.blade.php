@@ -1,14 +1,11 @@
 @extends('layouts.master')
 @section('title') Plans Management @endsection
-@section('css')
-    @livewireStyles
-@endsection
+
 @section('content')
     @livewire('plans.plan-management')
 @endsection
 
 @section('js')
-    @livewireScripts
     <script>
         $(document).ready(function() {
             Livewire.on('closeModal', () => {

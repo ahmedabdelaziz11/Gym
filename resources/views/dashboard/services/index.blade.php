@@ -1,14 +1,12 @@
 @extends('layouts.master')
 @section('title') Services Management @endsection
-@section('css')
-    @livewireStyles
-@endsection
+
 @section('content')
     @livewire('services.service-management')
 @endsection
 
 @section('js')
-    @livewireScripts
+    
     <script>
         $(document).ready(function() {
             Livewire.on('closeModal', () => {

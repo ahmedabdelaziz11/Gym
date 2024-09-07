@@ -14,6 +14,14 @@
                     <div class="notification bg-primary rounded-circle"></div>
                 </a>
             </li>
+            <li class="nav-item">
+                @can('subscription-create')
+                    <a class="nav-link nav-icon-hover" data-bs-toggle="modal" data-bs-target="#createSubscriptionModal">
+                        <i class="ti ti-credit-card"></i>
+                        <div class="notification bg-primary rounded-circle"></div>
+                    </a>
+                @endcan
+            </li>
         </ul>
         <div class="navbar-collapse justify-content-end px-0" id="navbarNav">
             <ul class="navbar-nav flex-row ms-auto align-items-center justify-content-end">
@@ -43,4 +51,6 @@
         </div>
     </nav>
 </header>
+@livewire('subscriptions.subscription-create')
+
 <!--  Header End -->

@@ -1,14 +1,11 @@
 @extends('layouts.master')
 @section('title') Calls Management @endsection
-@section('css')
-    @livewireStyles
-@endsection
+
 @section('content')
     @livewire('calls.call-management')
 @endsection
 
 @section('js')
-    @livewireScripts
     <script>
         $(document).ready(function() {
             Livewire.on('closeModal', () => {

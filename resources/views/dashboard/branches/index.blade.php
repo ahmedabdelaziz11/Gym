@@ -1,14 +1,11 @@
 @extends('layouts.master')
 @section('title') Branch Management @endsection
-@section('css')
-    @livewireStyles
-@endsection
+
 @section('content')
     @livewire('branches.branch-management')
 @endsection
 
 @section('js')
-    @livewireScripts
     <script>
         $(document).ready(function() {
             Livewire.on('closeModal', () => {

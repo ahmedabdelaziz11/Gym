@@ -1,14 +1,11 @@
 @extends('layouts.master')
 @section('title') User Management @endsection
-@section('css')
-    @livewireStyles
-@endsection
+
 @section('content')
     @livewire('users.user-management')
 @endsection
 
-@section('js')
-    @livewireScripts
+@section('js')    
     <script>
         $(document).ready(function() {
             Livewire.on('closeModal', () => {

@@ -1,14 +1,11 @@
 @extends('layouts.master')
 @section('title') Leads Management @endsection
-@section('css')
-    @livewireStyles
-@endsection
+
 @section('content')
     @livewire('leads.lead-management')
 @endsection
 
 @section('js')
-    @livewireScripts
     <script>
         $(document).ready(function() {
             Livewire.on('closeModal', () => {

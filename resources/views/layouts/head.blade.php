@@ -21,4 +21,5 @@
             padding: 1rem;
         }
     </style>
+    @livewireStyles
 </head>
