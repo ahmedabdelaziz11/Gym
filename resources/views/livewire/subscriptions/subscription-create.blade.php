@@ -26,7 +26,7 @@
                         </div>
                         <div class="col-4">
                             <div class="text-center rounded-circle">
-                                <img src="{{asset('assets/images/profile/user-1.jpg')}}" width="80" class="rounded-circle" alt="...">
+                                <img src="{{asset('assets/images/profile/user-1.jpg')}}" width="100" class="rounded-circle" alt="...">
                             </div>  
                             <h2 class="text-center m-0">{{ $client_name }}</h2>
                             <h3 class="text-center m-0">#{{ $client_code }}</h3>
