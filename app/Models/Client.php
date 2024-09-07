@@ -25,4 +25,14 @@ class Client extends Model
     {
         return $q->where('client_status', ClientStatus::CONVERTED);
     }
+
+    public function subscription()
+    {
+        return $this->hasMany(Subscription::class);
+    }
+
+    public function latestSubscription()
+    {
+        return $this->hasOne(Subscription::class)->latestOfMany();
+    }
 }

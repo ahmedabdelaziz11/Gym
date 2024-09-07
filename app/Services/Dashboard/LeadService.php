@@ -6,7 +6,7 @@ use App\Constants\CallTypes;
 use App\Constants\ClientStatus;
 use App\Models\Client;
 
-class LeadService
+class LeadService 
 {
     public function index(array $data)
     {
