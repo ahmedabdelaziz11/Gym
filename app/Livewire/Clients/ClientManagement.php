@@ -45,6 +45,7 @@ class ClientManagement extends Component
         $clients = $service->index([
             'search'    => $this->client_search,
         ]);
+        
         $calls = $callService->index([
             'from'   => $this->from,
             'to'     => $this->to,
@@ -99,25 +100,6 @@ class ClientManagement extends Component
 
     public function refreshClientList()
     {
-        $this->resetPage();
-    }
-
-    public function callFeedback($id)
-    {
-        $this->call_id = $id;
-    }
-
-    public function saveClientCallFeedback(CallService $service)
-    {
-        $validatedData = $this->validate([
-            'call_id' => 'required|exists:calls,id',
-            'status' => 'required|string',
-            'comment' => 'nullable|string|required_if:status,ANSWER',
-        ]);
-        $service->saveCallFeedback($validatedData);
-        $this->dispatch('success','Call Feedback Saved successfully!'); 
-        $this->dispatch('closeModal'); 
-        $this->reset(['call_id','status','comment']);
         $this->resetPage();
     }
 }

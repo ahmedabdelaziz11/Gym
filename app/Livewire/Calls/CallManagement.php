@@ -12,6 +12,8 @@ class CallManagement extends Component
     use WithPagination;
 
     public $currentPage = 1;
+    protected $listeners = ['refreshCallList'];
+
 
     public function render(CallService $service)
     {
@@ -33,5 +35,10 @@ class CallManagement extends Component
         Paginator::currentPageResolver(function(){
             return $this->currentPage;
         });
+    }
+
+    public function refreshCallList()
+    {
+        $this->resetPage();
     }
 }
