@@ -9,6 +9,7 @@
                 <tr>
                     <th scope="col">CLIENT NAME</th>
                     <th scope="col">CLIENT PHONE</th>
+                    <th scope="col">CLIENT TYPE</th>
                     <th scope="col">DATE</th>
                     <th scope="col">TYPE</th>
                     <th scope="col">ACTIONS</th>
@@ -23,6 +24,7 @@
                     <tr>
                         <td>{{$call->client->name}}</td>
                         <td>{{$call->client->phone}}</td>
+                        <td>{{$call->client->client_type}}</td>
                         <td>
                             <p class="{{ $date->diffInDays($now) >= 1 ? 'btn btn-sm btn-danger text-white' : '' }}" style="cursor: default;">{{$call->date}}</p>
                         </td>

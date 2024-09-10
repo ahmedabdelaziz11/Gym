@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Enums\CallTypes;
 use App\Events\SubscriptionCreated;
 use App\Services\Dashboard\CallService;
 use Carbon\Carbon;
@@ -30,25 +31,26 @@ class CreateCallsForSubscription
 
         $this->callService->create([
             'client_id'  => $client->id,
-            'type'       => 'RENEWAL',
+            'type'       => CallTypes::RENEWAL,
             'date'       => $endDate->subDays(3),
             'status'     => null,
             'branch_id'  => $client->branch_id,
         ]);
-
         $this->callService->create([
             'client_id'  => $client->id,
-            'type'       => 'UPGRADE',
+            'type'       => CallTypes::UPGRADE,
             'date'       => $startDate->addWeeks(2),
             'status'     => null,
             'branch_id'  => $client->branch_id,
         ]);
 
+        $endDate   = Carbon::parse($subscription->end_date);
+        $startDate = Carbon::parse($subscription->start_date);
         while ($startDate->lt($endDate)) {
             $startDate->addDays(30);
             $this->callService->create([
                 'client_id'  => $client->id,
-                'type'       => 'FEEDBACK',
+                'type'       => CallTypes::FEEDBACK,
                 'date'       => $startDate->copy(),
                 'status'     => null,
                 'branch_id'  => $client->branch_id,

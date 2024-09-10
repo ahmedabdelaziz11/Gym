@@ -49,7 +49,7 @@ class SubscriptionCreate extends Component
             $this->client_code = $client->id;
 
             $this->last_plan_name = $client->latestSubscription ? optional($client->latestSubscription->plan)->name : "Hasn't subscribed before";
-            $this->last_plan_expired_at = $latestSubscription->end_date ?? null;
+            $this->last_plan_expired_at = $client->latestSubscription ? $client->latestSubscription->end_date : null;
         } else {
             $this->reset(['client_id','client_name','client_code']);
 

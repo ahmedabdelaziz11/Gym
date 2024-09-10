@@ -24,7 +24,7 @@ class UpdateClientStatusAndDeleteCalls
     {
         $client = $event->client;
 
-        if ($client->client_status != ClientStatus::CONVERTED) {
+        if ($client->isLead()) {
             $client->client_status  = ClientStatus::CONVERTED;
             $client->client_type    = ClientType::SUBSCRIBER;
             $client->save();

@@ -15,7 +15,12 @@ class Client extends Model
     {
         return $this->belongsTo(User::class,'user_id');
     }
-
+    
+    public function isLead() :bool
+    {
+        return $this->client_type == ClientType::LEAD->value;
+    }
+    
     public function scopeLead($q)
     {
         return $q->where('client_type',ClientType::LEAD->value);

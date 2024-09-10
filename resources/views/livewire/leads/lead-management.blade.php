@@ -109,7 +109,7 @@
                                 <option value="">Select Status</option>
                                 <option value="ANSWER">ANSWER</option>
                                 <option value="NOT_ANSWER">NOT_ANSWER</option>
-                                <option value="null">NO ACTION TAKEN</option>
+                                <option value="1">NO ACTION TAKEN</option>
                             </select>
                         </div>
                         <div class="col-12 col-md-4">

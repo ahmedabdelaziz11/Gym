@@ -27,8 +27,11 @@ class CallService
             ->when($type,function($q)use($type){
                 return $q->where('type',$type);
             })
-            ->when($status,function($q)use($status){
+            ->when($status && $status != 1,function($q)use($status){
                 return $q->where('status',$status);
+            })
+            ->when($status == 1,function($q)use($status){
+                return $q->where('status',null);
             });
         
         if ($user->hasRole('sales')) {
