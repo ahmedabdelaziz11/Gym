@@ -2,7 +2,7 @@
 
 namespace App\Services\Dashboard;
 
-use App\Constants\ClientStatus;
+use App\Enums\ClientStatus;
 use App\Models\Call;
 use Carbon\Carbon;
 
@@ -18,8 +18,7 @@ class CallService
         $status    = isset($data['status'])    ? $data['status'] : null;
         $client_status    = isset($data['client_status'])    ? $data['client_status'] : null;
 
-        $query = Call::query()->whereIn('branch_id', $user->branches->pluck('id')->toArray())
-            ->when($client_id,function($q) use ($client_id) {
+        $query = Call::query()->when($client_id,function($q) use ($client_id) {
                 $q->where('client_id',$client_id);
             })
             ->when($from && $to,function($q)use($from,$to){
@@ -55,9 +54,23 @@ class CallService
         return $query->orderByDesc('date')->orderByDesc('id')->paginate(30);
     }
 
+    public function dailyCalls()
+    {
+        return Call::query()
+            ->whereNull('status')
+            ->whereHas('client', function($q){
+                $q->where('user_id',auth()->user()->id);
+            })->orderByDesc('date')->orderByDesc('id')->paginate(30);
+    }
+
     public function create(array $data)
     {
         $call = Call::create($data);
+    }
+
+    public function getById(int $id)
+    {
+        return Call::findOrFail($id);
     }
 
     public function update(array $data): bool
@@ -83,7 +96,7 @@ class CallService
             $call->client->update([
                 'client_status' => $data['selected_lead_status'],
             ]);
-            if(!in_array($data['selected_lead_status'],[ClientStatus::INTERESTED,ClientStatus::QUALIFED])){
+            if(!in_array($data['selected_lead_status'],[ClientStatus::INTERESTED,ClientStatus::QUALIFIED])){
                 Call::where('client_id',$call->client_id)->where('status',null)->delete();
             }
         }

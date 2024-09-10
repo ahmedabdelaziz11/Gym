@@ -12,11 +12,6 @@
             <div class="card shadow">
                 <div class="card-header border-0">
                     <h3 class="mb-0">Client Management</h3>
-                        <div class="float-end">
-                            @can('subscription-create')
-                                <button class="btn btn-sm btn-success" data-bs-toggle="modal" data-bs-target="#createSubscriptionModal"> Create New subscription</button>
-                            @endcan
-                        </div>
                 </div>
                 <div class="card-header border-0">
                     <div class="row">
@@ -50,9 +45,11 @@
                                     <td class="text-center" colspan="8">No data</td>
                                 </tr>
                             @endforelse
-                        </tbody>
-                        {{ $clients->links('pagination-links') }}
+                        </tbody>                        
                     </table>
+                </div>
+                <div class="d-flex justify-content-center m-2">
+                    {{ $clients->links('pagination-links') }}
                 </div>
             </div>
         </div>
@@ -112,10 +109,12 @@
                                 </tr>
                             @endforelse
                         </tbody>
-                        {{ $calls->links('pagination-links') }}
                     </table>
                 </div>
-                @include('livewire.calls.client-call-feedback')
+                @livewire('calls.call-feedback')
+                <div class="d-flex justify-content-center m-2">
+                    {{ $calls->links('pagination-links') }}
+                </div>
             </div>
         </div>
     </div>

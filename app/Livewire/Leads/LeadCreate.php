@@ -2,12 +2,12 @@
 
 namespace App\Livewire\Leads;
 
-use App\Constants\ClientDataType;
+use App\Enums\ClientDataType;
 use App\Models\Client;
 use App\Services\Dashboard\LeadService;
 use App\Services\Dashboard\UserService;
+use Illuminate\Validation\Rules\Enum;
 use Livewire\Component;
-use ReflectionClass;
 
 class LeadCreate extends Component
 {
@@ -37,7 +37,7 @@ class LeadCreate extends Component
             'name' => 'required|max:255|string',
             'email' => 'nullable|email',
             'national_id' => 'nullable|regex:/^[2-3]{1}[0-9]{13}$/',
-            'data_type' => 'required',
+            'data_type' => ['required', new Enum(ClientDataType::class)],
             'user_id' => 'required|exists:users,id',
         ];
     }
@@ -55,7 +55,6 @@ class LeadCreate extends Component
             'national_id' => $this->national_id,
             'data_type' => $this->data_type,
             'user_id' => $this->user_id,
-            'branch_id' => auth()->user()->branches->first()->id,
         ]);
         $this->reset(['name','phone','email','national_id','user_id']);
         $this->dispatch('success','Lead saved successfully!'); 
@@ -66,8 +65,8 @@ class LeadCreate extends Component
 
     public function render(UserService $userService)
     {
-        $this->allDataTypes = (new ReflectionClass(ClientDataType::class))->getConstants();
-        $this->allSellers = $userService->getSeller();
+        $this->allDataTypes = ClientDataType::cases();
+        $this->allSellers   = $userService->getSeller();
         return view('livewire.leads.lead-create');
     }
 }

@@ -49,8 +49,11 @@
                     </tr>
                 @endforelse
             </tbody>
-            {{ $subscriptions->links('pagination-links') }}
         </table>
     </div>
+    <div class="d-flex justify-content-center m-2">
+        {{ $subscriptions->links('pagination-links') }}
+    </div>
+    @livewire('calls.call-feedback')
 </div>
 

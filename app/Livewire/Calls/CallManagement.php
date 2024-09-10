@@ -11,16 +11,6 @@ class CallManagement extends Component
 {
     use WithPagination;
 
-    protected $listeners = ['refreshCallList','callFeedback'];
-
-    public $from = '';
-    public $to = '';
-    public $type = '';
-    public $next_call_date = '';
-    public $comment = '';
-    public $status = '';
-    public $client_id = '';
-    public $call_id = '';
     public $currentPage = 1;
 
     public function render(CallService $service)
@@ -28,31 +18,9 @@ class CallManagement extends Component
         if (auth()->user() && !auth()->user()->hasPermissionTo('call-list')) {
             abort(403, 'Unauthorized');
         }
-        $calls = $service->index([
-                $this->from,
-                $this->type,
-                $this->status,
-                $this->client_id,
-            ]);
+        $calls = $service->dailyCalls();
         return view('livewire.calls.call-management', ['calls' => $calls]);
     }
-
-    public function callFeedback($id)
-    {
-        $this->call_id = $id;
-    }
-
-    public function deleteService($id,CallService $service)
-    {
-        if (auth()->user() && !auth()->user()->hasPermissionTo('call-delete')) {
-            abort(403, 'Unauthorized');
-        }
-        $service->delete($id);
-        $this->dispatch('success','Call deleted successfully!'); 
-        $this->resetPage();
-    }
-
-
 
     public function setPage($url)
     {
@@ -65,10 +33,5 @@ class CallManagement extends Component
         Paginator::currentPageResolver(function(){
             return $this->currentPage;
         });
-    }
-
-    public function refreshCallList()
-    {
-        $this->resetPage();
     }
 }

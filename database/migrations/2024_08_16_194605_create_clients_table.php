@@ -18,11 +18,11 @@ return new class extends Migration
             $table->string('email')->unique()->nullable();
             $table->string('national_id')->unique()->nullable();
             $table->string('data_type')->nullable();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->text('visit_comment')->nullable();
-            $table->date('next_call_date')->nullable();
-            $table->string('client_goal')->nullable();
+            $table->enum('client_type', ['LEAD', 'SUBSCRIBER']);
             $table->string('client_status')->nullable();
+            $table->text('visit_comment')->nullable();
+            $table->string('client_goal')->nullable();
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->foreignId('branch_id')->constrained('branches')->onDelete('cascade');
             $table->timestamps();
         });

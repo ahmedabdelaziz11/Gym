@@ -2,8 +2,8 @@
 
 namespace App\Services\Dashboard;
 
-use App\Constants\CallTypes;
-use App\Constants\ClientStatus;
+use App\Enums\ClientStatus;
+use App\Events\LeadInterestedAfterFirstVisit;
 use App\Models\Client;
 
 class LeadService 
@@ -59,26 +59,17 @@ class LeadService
 
     public function saveVisitFeedback(array $data)
     {
-        $client = client::find($data['lead_id']);
+        $client = $this->getById($data['lead_id']);
         if($client->user_id != auth()->user()->id)
         {
             abort(403, 'Unauthorized');
         }
         $client->update([
             'visit_comment'  => $data['visit_comment'],
-            'next_call_date' => $data['next_call_date'] != '' ? $data['next_call_date']  : null,
             'client_goal'    => $data['client_goal'],
-            'client_status'    => $data['selected_lead_status'],
+            'client_status'  => $data['selected_lead_status'],
         ]);
-        if($data['next_call_date']){
-            $callService = new CallService();
-            $callService->create([
-                'client_id' => $client->id,
-                'Type'      => CallTypes::FIRST_CALL,
-                'date'      => $data['next_call_date'],
-                'branch_id' => auth()->user()->branches->first()->id
-            ]);
-        }
+        event(new LeadInterestedAfterFirstVisit($client, $data['next_call_date']));
     }
 
     public function getById(int $id)

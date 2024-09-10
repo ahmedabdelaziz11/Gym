@@ -2,8 +2,10 @@
 
 namespace App\Providers;
 
+use App\Events\LeadInterestedAfterFirstVisit;
 use App\Events\SubscriptionCreated;
 use App\Listeners\CreateCallsForSubscription;
+use App\Listeners\CreateNextCallForLead;
 use App\Listeners\UpdateClientStatusAndDeleteCalls;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -24,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
         SubscriptionCreated::class => [
             UpdateClientStatusAndDeleteCalls::class,
             CreateCallsForSubscription::class,
+        ],
+        LeadInterestedAfterFirstVisit::class => [
+            CreateNextCallForLead::class,
         ],
     ];
 

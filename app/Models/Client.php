@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Constants\ClientStatus;
+use App\Enums\ClientType;
 use App\Traits\BranchTrait;
 use Illuminate\Database\Eloquent\Model;
 
@@ -18,12 +18,12 @@ class Client extends Model
 
     public function scopeLead($q)
     {
-        return $q->where('client_status', '!=', ClientStatus::CONVERTED);
+        return $q->where('client_type',ClientType::LEAD->value);
     }
 
     public function scopeClient($q)
     {
-        return $q->where('client_status', ClientStatus::CONVERTED);
+        return $q->where('client_type', ClientType::SUBSCRIBER->value);
     }
 
     public function subscription()

@@ -2,7 +2,8 @@
 
 namespace App\Listeners;
 
-use App\Constants\ClientStatus;
+use App\Enums\ClientStatus;
+use App\Enums\ClientType;
 use App\Events\SubscriptionCreated;
 use App\Models\Call;
 
@@ -25,6 +26,7 @@ class UpdateClientStatusAndDeleteCalls
 
         if ($client->client_status != ClientStatus::CONVERTED) {
             $client->client_status  = ClientStatus::CONVERTED;
+            $client->client_type    = ClientType::SUBSCRIBER;
             $client->save();
 
             Call::where('client_id', $client->id)->where('status', null)->delete();
