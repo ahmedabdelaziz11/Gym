@@ -22,7 +22,7 @@
                     $now = \Carbon\Carbon::now();
                 @endphp
                     <tr>
-                        <td>{{$call->client->name}}</td>
+                        <td><a data-bs-toggle="modal" wire:click="$dispatch('getClient', { id: {{ $call->client_id }} })" data-bs-target="#UserProfileModal">{{$call->client->name}}</a></td>
                         <td>{{$call->client->phone}}</td>
                         <td>{{$call->client->client_type}}</td>
                         <td>
@@ -47,6 +47,7 @@
             {{ $calls->links('pagination-links') }}
         </div>
         @livewire('calls.call-feedback')
+        @livewire('clients.client-profile')
     </div>
 </div>
 

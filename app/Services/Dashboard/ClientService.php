@@ -37,8 +37,7 @@ class ClientService
 
     public function getById(int $id)
     {
-        return Client::client()
-            ->findOrFail($id);
+        return Client::findOrFail($id);
     }
 
     public function getByPhone(string $phone)

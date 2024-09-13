@@ -40,4 +40,16 @@ class Client extends Model
     {
         return $this->hasOne(Subscription::class)->latestOfMany();
     }
+
+    public function calls()
+    {
+        return  $this->hasMany(Call::class);
+    }
+
+    public function AnswerCalls()
+    {
+        return $this->hasMany(Call::class)
+        ->where('status', 'ANSWER')
+        ->orderByDesc('updated_at');
+    }
 }
